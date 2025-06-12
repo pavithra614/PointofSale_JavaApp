@@ -24,6 +24,42 @@ public class product extends javax.swing.JPanel {
      */
     public product() {
         initComponents();
+        tb_load();
+    }
+    
+    
+    public void tb_load(){
+    
+        try {
+          
+          DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
+          dt.setRowCount(0);
+          
+          Statement s = db.mycon().createStatement();
+          ResultSet rs = s.executeQuery(" SELECT * FROM product");
+          
+          while (rs.next()) {              
+              
+              Vector v = new Vector();
+              
+              v.add(rs.getString(1));
+              v.add(rs.getString(2));
+              v.add(rs.getString(3));
+              v.add(rs.getString(4));
+              v.add(rs.getString(5));
+              v.add(rs.getString(6));
+              
+              dt.addRow(v);
+                          
+              
+              
+              
+          }
+          
+      } catch (SQLException e) {
+          System.out.println(e);
+      }
+    
     }
 
     /**
@@ -54,9 +90,9 @@ public class product extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        p_src = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        p_src = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         jPanel2.setBackground(new java.awt.Color(153, 153, 153));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(0, 0, 0), null, null));
@@ -104,11 +140,21 @@ public class product extends javax.swing.JPanel {
         jButton3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("Update");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(255, 102, 153));
         jButton4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton4.setForeground(new java.awt.Color(0, 0, 0));
         jButton4.setText("Delete");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         p_sid.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
         p_sid.setText("0");
@@ -221,22 +267,15 @@ public class product extends javax.swing.JPanel {
                 "ID", "Product Name", "Bar Code", "Price", "Qty", "SID"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Search ID :");
-
-        p_src.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        p_src.setText("0");
-        p_src.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                p_srcActionPerformed(evt);
-            }
-        });
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
@@ -248,25 +287,28 @@ public class product extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(p_src, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel4)
+                .addContainerGap(276, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(p_src, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(101, Short.MAX_VALUE))
         );
+
+        p_src.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        p_src.setText("0");
+        p_src.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                p_srcActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Search ID :");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -278,7 +320,13 @@ public class product extends javax.swing.JPanel {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(p_src, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -290,11 +338,17 @@ public class product extends javax.swing.JPanel {
                         .addGap(142, 142, 142)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 8, Short.MAX_VALUE)))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 318, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(p_src, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -314,7 +368,34 @@ public class product extends javax.swing.JPanel {
     }//GEN-LAST:event_p_nameActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        // Search Button Action Code
+        
+        String search = p_src.getText();
+        
+        try {
+            Statement s = db.mycon().createStatement();
+            
+            ResultSet rs = s.executeQuery(" SELECT * FROM product WHERE pid ='"+search+"'  ");
+            
+            if (rs.next()) {
+              
+                p_name.setText(rs.getString("Product_Name"));
+                p_bcode.setText(rs.getString("Bar_code"));
+                p_price.setText(rs.getString("Price"));
+                p_qty.setText(rs.getString("Qty"));
+                p_sid.setText(rs.getString("Sid"));
+                
+                
+                
+            }
+            
+            
+        } catch (SQLException e) {
+            
+            System.out.println(e);
+        }
+        
+        tb_load();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void p_srcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p_srcActionPerformed
@@ -349,8 +430,77 @@ public class product extends javax.swing.JPanel {
         } catch (SQLException e) {
             System.out.println(e);
         }
+        
+        tb_load();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // Delete Button Code
+        String id = p_src.getText();
+       
+        try {
+            Statement s = db.mycon().createStatement();
+            s.executeUpdate("DELETE FROM product WHERE pid = '"+id+"' ");
+            JOptionPane.showMessageDialog(null, "Data Deleted");
+            
+        } catch (HeadlessException | SQLException e) {
+            System.out.println(e);
+        }
+        
+        tb_load();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Update Button action Code
+        String id =p_src.getText();
+        String name = p_name.getText();
+        String bcode = p_bcode.getText();
+        String price = p_price.getText();
+        String qty = p_qty.getText();
+        String sid = p_sid.getText();
+        
+        try {
+            
+          Statement s = db.mycon().createStatement();
+          
+          //  Full texts 	pid 	Product_Name 	Bar_code 	Price 	Qty 	Sid 
+          
+          s.executeUpdate("UPDATE product SET Product_Name='"+name+"',Bar_code='"+bcode+"' ,Price='"+price+"',Qty='"+qty+"',Sid='"+sid+"' WHERE pid ='"+id+"' ");
+            
+            JOptionPane.showMessageDialog(null, "Data Updated");
+            
+            
+        } catch (Exception e) {
+        }
+        
+        
+         tb_load();
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        
+        int r = jTable1.getSelectedRow();
+       
+       String id  = jTable1.getValueAt(r, 0).toString();
+       String name  = jTable1.getValueAt(r, 1).toString();
+       String bcode  = jTable1.getValueAt(r, 2).toString();
+       String price  = jTable1.getValueAt(r, 3).toString();
+       String qty  = jTable1.getValueAt(r, 4).toString();
+       String sid  = jTable1.getValueAt(r, 5).toString();
+       
+        p_src.setText(id);
+        p_name.setText(name);
+        p_bcode.setText(bcode);
+        p_price.setText(price);
+        p_qty.setText(qty);
+        p_sid.setText(sid);
+        
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
